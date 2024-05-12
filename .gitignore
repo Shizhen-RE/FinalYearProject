@@ -1,0 +1,5 @@
+.DS_Store
+.vscode/
+recommender/test/testdata
+__pycache__/
+log.txt

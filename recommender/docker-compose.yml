@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  recommender:
+    build: .
+    ports:
+      - "9000:5000"
+    volumes:
+      - .:/recommender
+    depends_on:
+      - mongodb
+    environment:
+      FLASK_DEBUG: True
+  mongodb:
+    image: "mongo:latest"
+    ports:
+      - "27017:27017"
+    volumes:
+      - ../db:/db
+  mongoseed:
+    build: ../db
+    depends_on:
+      - mongodb

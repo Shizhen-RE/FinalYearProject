@@ -1,0 +1,100 @@
+package com.nearme.nearme_backend.service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import org.bson.Document;
+
+import com.nearme.nearme_backend.dao.DatabaseAccessor;
+import com.nearme.nearme_backend.model.GetTopicListRes;
+
+public class RecommenderServiceImpl implements RecommenderService {
+    DatabaseAccessor da = new DatabaseAccessor("aidanfo", "50VsPsP5MSUJG8AG");
+
+    private static final String RECOMMENDATION_URL = "http://recommender-service:9000/getRecommendations/"; // kubernetes deployment
+    // private static final String RECOMMENDATION_URL = "http://localhost:9000/getRecommendations/"; // local testing
+
+    @Override
+    public List<GetTopicListRes> getRecommendedTopicList(String regionName, String userName)
+            throws Exception {
+        String regionId = da.regions.getID(regionName);
+        String userId = da.users.getID(userName);
+        List<String> recommendedTopicIds = recommendTopics(regionId, userId);
+        List<GetTopicListRes> recommendedTopicList = new ArrayList<GetTopicListRes>();
+        recommendedTopicIds.forEach(topicId -> {
+            Document topicDoc = da.topics.read(topicId);
+            recommendedTopicList.add(
+                    new GetTopicListRes(
+                            topicId,
+                            (String) topicDoc.get("Name"),
+                            (int) topicDoc.get("MessageCount"),
+                            (int) topicDoc.get("SubscriptionCount")));
+        });
+        return recommendedTopicList;
+    }
+
+    private List<String> recommendTopics(String regionId, String userId) {
+        // get top 20 popular topics in the region
+        List<String> topicIDList = da.topics.getPopularTopics(regionId, 20);
+
+        // get recommended topics by requesting the recommender endpoint
+        List<String> recommendedIDs = requestRecommendations(regionId, userId);
+        if (recommendedIDs != null){
+            topicIDList.addAll(recommendedIDs);
+        }
+        
+        // remove duplicates
+        Set<String> set = new HashSet<>(topicIDList);
+        topicIDList.clear();
+        topicIDList.addAll(set);
+
+        // shuffle to get randomized recommendation preference
+        Collections.shuffle(topicIDList);
+
+        return topicIDList;
+    }
+
+    private static List<String> requestRecommendations(String regionId, String userId){
+        String targetURL = RECOMMENDATION_URL + "?userId=" + userId + "&regionId=" + regionId;
+        
+        try {
+            // build request
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(targetURL)).build();
+
+            // send request
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200){
+                System.err.println("Request to recommender failed with response code " + response.statusCode());
+                return new ArrayList<String>();
+            }
+            JSONObject resJson = new JSONObject(response.body());
+            System.out.println(resJson);
+
+            // get the recommended topic IDs from json response
+            ArrayList<String> topicIdList = new ArrayList<String>();
+            JSONArray jsonArray = resJson.getJSONArray("recommendations");
+            if (jsonArray != null) {
+                for (int i=0;i<jsonArray.length();i++){   
+                    topicIdList.add((String)jsonArray.get(i));  
+                }   
+            }  
+            
+            return topicIdList;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}

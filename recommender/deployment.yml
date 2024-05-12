@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommender
+  namespace: default
+  labels:
+    app: recommender
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recommender
+  template:
+    metadata:
+      labels:
+        app: recommender
+    spec:
+      containers:
+      - name: recommender
+        image: northamerica-northeast2-docker.pkg.dev/nearme-356517/nearme-docker-repo/recommender:latest
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        env:
+        - name: "PORT"
+          value: "5000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommender-service
+  labels:
+    app: recommender
+spec:
+  type: NodePort
+  selector:
+    app: recommender
+  ports:
+    - name: "server-connection"
+      port: 9000
+      targetPort: 5000

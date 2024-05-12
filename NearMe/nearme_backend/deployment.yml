@@ -1,0 +1,89 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nearme-server
+  namespace: default
+  labels:
+    app: nearme-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nearme-server
+  template:
+    metadata:
+      labels:
+        app: nearme-server
+    spec:
+      containers:
+      - name: nearme-server
+        image: northamerica-northeast2-docker.pkg.dev/nearme-356517/nearme-docker-repo/nearme_backend:latest
+        readinessProbe:
+          httpGet:
+            path: /healthCheck
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        env:
+        - name: "PORT"
+          value: "8080"
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nearme-server-hpa-dyqy
+  namespace: default
+  labels:
+    app: nearme-server
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: nearme-server
+    apiVersion: apps/v1
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nearme-server-service
+  labels:
+    app: nearme-server
+spec:
+  type: NodePort
+  selector:
+    app: nearme-server
+  ports:
+  - nodePort: 30876
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: nearme-server-ingress
+# spec:
+#   defaultBackend:
+#     service:
+#         name: nearme-server-service
+#         port:
+#           number: 80
+#   rules:
+#   - http:
+#       paths:
+#       - path: /*
+#         pathType: ImplementationSpecific
+#         backend:
+#           service:
+#             name: nearme-server-service
+#             port:
+#               number: 80

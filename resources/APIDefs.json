@@ -1,0 +1,466 @@
+[
+    {
+        "path": "/healthCheck",
+        "GET": {
+            "req": {},
+            "rsp": "string",
+            "description": "internal use to see if connection OK"
+        }
+    },
+    {
+        "path": "/isVerified",
+        "GET": {
+            "req": {
+                "param": {
+                    "latitude": "float",
+                    "longitude": "float",
+                    "altitude": "float"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {
+                "body": {
+                    "isVerified": "boolean"
+                }
+            },
+            "description": "Check whether a user is verified at a location"
+        }
+    },
+    {
+        "path": "/getTopicList",
+        "GET": {
+            "req": {
+                "param": {
+                    "latitude": "float",
+                    "longitude": "float"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": [
+                {
+                    "ID": "string",
+                    "Name": "string",
+                    "MessageCount": "int"
+                }
+            ],
+            "description": "get topic of a region"
+        }
+    },
+    {
+        "path": "/getRecommendedTopicList",
+        "GET": {
+            "req": {
+                "param": {
+                    "latitude": "float",
+                    "longitude": "float"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": [
+                {
+                    "ID": "string",
+                    "Name": "string",
+                    "MessageCount": "int"
+                }
+            ],
+            "description": "get recommended topic for this user"
+        }
+    },
+    {
+        "path": "/getFBUser",
+        "GET": {
+            "req": {
+                "param": {
+                    "uid": "string"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {
+                "body": "UserRecord (firebase)"
+            },
+            "description": "get information about a user stored in firebase"
+        }
+    },
+    {
+        "path": "/updateLikes",
+        "GET": {
+            "req": {
+                "param": {
+                    "message_id": "string",
+                    "add": "int"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {},
+            "description": "increment/decrement like count on a message"
+        }
+    },
+    {
+        "path": "/nearme",
+        "POST": {
+            "req": {
+                "param": {},
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {
+                    "CurrentPos": ["float"],
+                    "LastPos": ["float"],
+                    "LastTimestap": "int",
+                    "Topics": ["string"],
+                    "Filter": "string",
+                    "type": "int"
+                }
+            },
+            "rsp": {
+                "body": {
+                    "Messages": [
+                        {
+                            "ID": "string",
+                            "User": "string",
+                            "Topic": "string",
+                            "Coordinates": ["double"],
+                            "Timestamp": "int",
+                            "Content": "string",
+                            "Likes": "int",
+                            "IsLiked": "boolean",
+                            "IsAR": "boolean",
+                            "Size": ["float"],
+                            "Image": "base64",
+                            "ImageFormat": "string",
+                            "Preview": "base64",
+                            "Color": ["float"],
+                            "SizeMultiplier": "float",
+                            "Rotation": ["float"]
+                        }
+                    ],
+                    "Timestamp": "int",
+                    "Updated": ["string"],
+                    "Removed": ["string"]
+                }
+            },
+            "description": "Fetch surrounding message of the type specified for user, AR view"
+        },
+        "GET": {
+            "req": {
+                "param": {
+                    "topic": "string",
+                    "lat": "double",
+                    "lng": "double"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {
+                "body": [
+                    {
+                        "ID": "string",
+                        "User": "string",
+                        "Topic": "string",
+                        "Coordinates": ["double"],
+                        "Timestamp": "int",
+                        "Content": "string",
+                        "Likes": "int",
+                        "IsLiked": "boolean",
+                        "IsAR": "boolean",
+                        "Size": ["float"],
+                        "Image": "base64",
+                        "ImageFormat": "string",
+                        "Preview": "base64",
+                        "Color": ["float"],
+                        "SizeMultiplier": "float",
+                        "Rotation": ["float"]
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "path": "/location",
+        "GET": {
+            "req": {
+                "param": {},
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {
+                "body": [
+                    {
+                        "ID": "string",
+                        "Name": "string",
+                        "StreetAddress": "string",
+                        "Longitude": "float",
+                        "Latitude": "float"
+                    }
+                ]
+            },
+            "description": "Find all locations a user is bond to"
+        },
+        "PUT": {
+            "req": {
+                "param": {
+                    "location_id": "string",
+                    "new_name": "string"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {
+                "body": {}
+            },
+            "description": "Change a location's name"
+        },
+        "POST": {
+            "req": {
+                "param": {
+                    "latitude": "float",
+                    "longitude": "float",
+                    "altitude": "float",
+                    "name": "string"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {},
+                "file": "MultipartFile"
+            },
+            "rsp": {
+                "body": {}
+            },
+            "description": "Add a location and bind to the user"
+        },
+        "DELETE": {
+            "req": {
+                "param": {
+                    "location_id": "string"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {},
+            "description": "Delete a location the user holds"
+        }
+    },
+    {
+        "path": "/message",
+        "POST": {
+            "req": {
+                "param": {},
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {
+                    "ID": "string",
+                    "User": "string",
+                    "Topic": "string",
+                    "Coordinates": ["double"],
+                    "Timestamp": "int",
+                    "Content": "string",
+                    "Likes": "int",
+                    "IsLiked": "boolean",
+                    "IsAR": "boolean",
+                    "Size": ["float"],
+                    "Image": "base64",
+                    "ImageFormat": "string",
+                    "Preview": "base64",
+                    "Color": ["float"],
+                    "SizeMultiplier": "float",
+                    "Rotation": ["float"]
+                }
+            },
+            "rsp": {},
+            "description": "Publish a message from the user"
+        },
+        "PUT": {
+            "req": {
+                "param": {},
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {
+                    "ID": "string",
+                    "User": "string",
+                    "Topic": "string",
+                    "Coordinates": ["double"],
+                    "Timestamp": "int",
+                    "Content": "string",
+                    "Likes": "int",
+                    "IsLiked": "boolean",
+                    "IsAR": "boolean",
+                    "Size": ["float"],
+                    "Image": "base64",
+                    "ImageFormat": "string",
+                    "Preview": "base64",
+                    "Color": ["float"],
+                    "SizeMultiplier": "float",
+                    "Rotation": ["float"]
+                }
+            },
+            "rsp": {},
+            "description": "Publish a message from the user"
+        },
+        "DELETE": {
+            "req": {
+                "param": {
+                    "message_id": "string"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {},
+            "description": "delete a message from before"
+        },
+        "GET": {
+            "req": {
+                "param": {
+                    "start-time": "int",
+                    "count": "int",
+                    "type": "int"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {
+                "body": [
+                    {
+                        "ID": "string",
+                        "User": "string",
+                        "Topic": "string",
+                        "Coordinates": ["double"],
+                        "Timestamp": "int",
+                        "Content": "string",
+                        "Likes": "int",
+                        "IsLiked": "boolean",
+                        "IsAR": "boolean",
+                        "Size": ["float"],
+                        "Image": "base64",
+                        "ImageFormat": "string",
+                        "Preview": "base64",
+                        "Color": ["float"],
+                        "SizeMultiplier": "float",
+                        "Rotation": ["float"]
+                    }
+                ]
+            },
+            "description": "Return a count number of most recent posts/comments the user made before the given timestamp"
+        }
+    },
+    {
+        "path": "/subscription",
+        "GET": {
+            "req": {
+                "param": {},
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {
+                "body": [
+                    {
+                        "ID": "string",
+                        "Name": "string",
+                        "MessageCount": "int"
+                    }
+                ]
+            },
+            "description": "Find all subscriptions this user have"
+        },
+        "POST": {
+            "req": {
+                "param": {},
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": ["string"]
+            },
+            "rsp": {},
+            "description": "subscribe the given topic IDs"
+        },
+        "DELETE": {
+            "req": {
+                "param": {},
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": ["string"]
+            },
+            "rsp": {},
+            "description": "unsubscribe the given topic IDs"
+        }
+    },
+    {
+        "path": "/user",
+        "GET": {
+            "req": {
+                "param": {
+                    "uid": "string"
+                },
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {
+                "body": {
+                    "ID": "string",
+                    "Name": "string",
+                    "TotalLikes": "int",
+                    "PublicationCount": "int",
+                    "SubscriptionCount": "int",
+                    "TopicCount": "int"
+                }
+            },
+            "description": "get the user's metadata from our database"
+        },
+        "POST": {
+            "req": {
+                "param": {},
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {},
+            "description": "add a user to our database"
+        },
+        "DELETE": {
+            "req": {
+                "param": {},
+                "header": {
+                    "Authorization": "Bearer string"
+                },
+                "body": {}
+            },
+            "rsp": {},
+            "description": "Remove the user based on the authorization key"
+        }
+    }
+]
