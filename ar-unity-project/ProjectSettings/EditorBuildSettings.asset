@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/LoginScene.unity
+    guid: 70c271615bc274773a18df32ff8f3480
+  - enabled: 1
+    path: Assets/Scenes/ResetPasswordScene.unity
+    guid: d7fbc22fb04994369a991420bdffa070
+  - enabled: 1
+    path: Assets/Scenes/RegisterScene.unity
+    guid: 7de006e9c60b646e5b473caf61a56308
+  - enabled: 1
+    path: Assets/Scenes/NewUserScene.unity
+    guid: 9c60e015362b643e1b52f9b1ed57fef4
+  - enabled: 1
+    path: Assets/Scenes/SubscriptionScene.unity
+    guid: 9b4d8744f9e4a49118c010745405cc0e
+  - enabled: 1
+    path: Assets/Scenes/ARScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/PublishScene.unity
+    guid: e897bb8b04e884be7a39705db4e58432
+  - enabled: 1
+    path: Assets/Scenes/PublishARScene.unity
+    guid: 3dd950dc2a0804f94b91a8dfb4ced179
+  - enabled: 1
+    path: Assets/Scenes/UserHomePageScene.unity
+    guid: b0d9917bab02a44648a74faedb470a3e
+  - enabled: 1
+    path: Assets/Scenes/UserProfileScene.unity
+    guid: cedc6fd70f7604f0b85853b7c5fb9d5f
+  - enabled: 1
+    path: Assets/Scenes/PostHistoryScene.unity
+    guid: 37ab7a5537afc410b96374822f80d2a5
+  - enabled: 1
+    path: Assets/Scenes/CommentHistoryScene.unity
+    guid: afbdea119b80c4266a56ad5212fcbbb3
+  - enabled: 1
+    path: Assets/Scenes/UserSubscriptionsScene.unity
+    guid: d4d628c4fb46148b6a13086edd66fc98
+  - enabled: 1
+    path: Assets/Scenes/UserTopicsScene.unity
+    guid: bd69b8354751e4ed288b90d8c6e33da3
+  - enabled: 1
+    path: Assets/Scenes/UserLocationsScene.unity
+    guid: f760d146074b74231b114ec970f16440
+  - enabled: 1
+    path: Assets/Scenes/SettingsScene.unity
+    guid: aa6fd411d19234c18a241fc940a684b5
+  - enabled: 1
+    path: Assets/Scenes/BindLocationScene.unity
+    guid: ac9c292ab34414804832eb87888e5152
+  m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 3f318ec96340ecac981726918656507b, type: 2}
+    UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 0111e0f3d5093a98f902d9715d1a08f3, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 95d397b4512917fe4b74ef008b208511, type: 2}

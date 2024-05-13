@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center; background-color: rgb(196, 242, 255);">
+        <ui:Label text="NeAR Me" display-tooltip-when-elided="true" name="Title" style="font-size: 80px; -unity-font-style: bold; color: rgb(0, 0, 0); -unity-text-align: upper-center;" />
+        <ui:VisualElement style="background-color: rgba(253, 253, 253, 0.21); align-items: center; justify-content: center; height: 632px; width: 752px; opacity: 1; color: rgb(0, 0, 0); -unity-text-outline-color: rgba(245, 245, 245, 0.11);">
+            <ui:TextField picking-mode="Ignore" label="Email" value="text" text="user@example.com" name="LoginEmail" is-delayed="true" style="height: 51px; width: 537px; font-size: 30px;" />
+            <ui:TextField picking-mode="Ignore" label="Password" value="text" name="LoginPassword" is-delayed="false" password="true" style="height: 51px; width: 537px; font-size: 30px;" />
+            <ui:Button text="Login" display-tooltip-when-elided="true" name="LoginButton" enable-rich-text="false" style="height: 55px; width: 170px; font-size: 30px; top: 40px; bottom: 40px; align-items: stretch;" />
+            <ui:Button text="Register" display-tooltip-when-elided="true" name="RegisterButton" enable-rich-text="false" style="height: 55px; width: 170px; font-size: 30px; top: 40px; bottom: auto;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

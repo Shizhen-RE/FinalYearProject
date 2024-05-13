@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "392577860999",
+    "project_id": "nearmefirebase",
+    "firebase_url": "https://nearmefirebase-default-rtdb.firebaseio.com",
+    "storage_bucket": "nearmefirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392577860999:android:714a8ee74731cda3893f22",
+        "android_client_info": {
+          "package_name": "com.fydp.nearme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392577860999-egmtutforqkljde0rcoa3lj8uerln3k1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYQ2hKzzpaP2hHfnXnEPjKthJJtA4ptio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392577860999-egmtutforqkljde0rcoa3lj8uerln3k1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
